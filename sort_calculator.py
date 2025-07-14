@@ -17,9 +17,7 @@ def to_float(user_input: str) -> float:
             'infinity': math.inf,
             '-infinity': -math.inf
         }
-
         val = user_input.strip().lower()
-
         if val in constants:
             return constants[val]
         if val == 'nan':
@@ -77,7 +75,6 @@ def define_order(list: list[str]):
 
 def main():
     try:
-        # order = SORT_ORDER(sys.argv[1]) if 1 < len(sys.argv) else SORT_ORDER.ASC
         order, message = define_order(sys.argv)
         print(message)
         chunk = input('Enter numeric values only: ')
