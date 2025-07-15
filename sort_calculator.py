@@ -55,20 +55,20 @@ def insert_sort(list: list[float], order: SORT_ORDER, logs: bool) -> list[float]
     #     return list
     for i in range(1, len(list)):
         if logs:
-            print(f'Start index: {i}')
+            print(f'  >> Start index: {i}')
         select = list[i]
         position = i - 1
         if logs:
-            print(f'select: {select}, start_position: {position}')
+            print(f'  >> select: {select}, start_position: {position}')
         while 0 <= position and not compare_order(list[position], select, order):
             if logs:
-                print(f'SHIFT: {list[position]}: {position} -> {position + 1}')
+                print(f'  >> SHIFT: {list[position]}: {position} -> {position + 1}')
             list[position + 1] = list[position]
             position -= 1
         list[position + 1] = select
         if logs:
-            print(f'FINISH: {select}: {i} -> {position + 1}')
-            print(list)
+            print(f'  >> FINISH: {select}: {i} -> {position + 1}')
+            print(f'  >> {list}')
             print()
     return list
 
