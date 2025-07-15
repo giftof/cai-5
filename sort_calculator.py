@@ -2,9 +2,11 @@ import math
 import sys
 from enum import Enum
 
+
 class SORT_ORDER(str, Enum):
     ASC = 'ASC'
     DESC = 'DESC'
+
 
 def to_float(user_input: str) -> float:
     try:
@@ -26,15 +28,18 @@ def to_float(user_input: str) -> float:
     except ValueError as e:
         raise ValueError(f'[{user_input}] is not number [{e}]')
 
+
 def converter(list: list[str]) -> list[float]:
     if len(list) == 0:
         raise ValueError(f'Input some values please')
     return [to_float(n) for n in list]
 
+
 def compare_order(left: float, right: float, order: SORT_ORDER) -> bool:
     if order == SORT_ORDER.ASC:
         return left < right
     return left > right
+
 
 def is_sorted(list: list[float], order: SORT_ORDER) -> bool:
     if len(list) == 1:
@@ -44,23 +49,29 @@ def is_sorted(list: list[float], order: SORT_ORDER) -> bool:
             return False
     return True
 
-def insert_sort(list: list[float], order: SORT_ORDER) -> list[float]:
-    if is_sorted(list, order):
-        return list
+
+def insert_sort(list: list[float], order: SORT_ORDER, logs: bool) -> list[float]:
+    # if is_sorted(list, order):
+    #     return list
     for i in range(1, len(list)):
-        # print(f'Start index: {i}')
+        if logs:
+            print(f'Start index: {i}')
         select = list[i]
         position = i - 1
-        # print(f'select: {select}, start_position: {position}')
+        if logs:
+            print(f'select: {select}, start_position: {position}')
         while 0 <= position and not compare_order(list[position], select, order):
-            # print(f'SHIFT: {list[position]}: {position} -> {position + 1}')
+            if logs:
+                print(f'SHIFT: {list[position]}: {position} -> {position + 1}')
             list[position + 1] = list[position]
             position -= 1
         list[position + 1] = select
-        # print(f'FINISH: {select}: {i} -> {position + 1}')
-        # print(list)
-        # print()
+        if logs:
+            print(f'FINISH: {select}: {i} -> {position + 1}')
+            print(list)
+            print()
     return list
+
 
 def define_order(list: list[str]):
     try:
@@ -73,16 +84,26 @@ def define_order(list: list[str]):
     except:
         raise ValueError(f"'{sys.argv[1]}' is not a valid SORT_ORDER. Use 'ASC' or 'DESC' (without brackets).")
 
+
+def define_visualize(list: list[str]):
+    try:
+        return bool(list[2]) if 2 < len(list) else False
+    except:
+        raise ValueError(f"{sys.argv[2]} is not a valid VISUALIZED. Use 'True' or 'False' or NULL (without brackets)")
+
+
 def main():
     try:
         order, message = define_order(sys.argv)
+        logs = define_visualize(sys.argv)
         print(message)
         chunk = input('Enter numeric values only: ')
         converted = converter([n for n in chunk.split(' ') if n.strip()])
-        sorted = insert_sort(converted, order)
+        sorted = insert_sort(converted, order, logs)
         print(f'Sorted: {sorted}')
     except ValueError as e:
         print(f'Invalid input: {e}')
+
 
 if __name__ == '__main__':
     main()
